@@ -12,13 +12,26 @@
     <script>
 
         var target1 = new Date(2015, 8, 11, 18, 30, 0, 0);
-        var target2 = new Date(2015, 8, 12, 18, 30, 0, 0);
+        var target2 = new Date(2015, 8, 14, 17, 30, 0, 0);
         var start = new Date();
+        var time = 0;
+        var clock;
 
         $(document).ready(function () {
 
-            var time = 0;
-            var clock = $('.clock').FlipClock({});
+             clock = $('.clock').FlipClock({
+                callbacks  : {
+                    interval : function(d,x) {
+                        if (clock != undefined) {
+                            if (clock.getTime().time < 1) {
+                                $("#message").html("<span style='color:green;'>Everything went very well!</span>");
+                                clock.stop();
+                            }
+                        }
+                    }
+                }
+            });
+
             clock.setCountdown(true);
 
             if (start.getTime() < target1.getTime()) {
@@ -28,10 +41,11 @@
                 clock.start();
             } else {
                 time = (target2.getTime() - start.getTime()) / 1000;
-                $("#message").html("Time left to finish the race");
+                $("#message").html("Hold your breath for the Big Demo Day");
                 clock.setTime(time);
                 clock.start();
             }
+
         });
     </script>
 </head>
